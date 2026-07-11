@@ -84,7 +84,33 @@ pytest
 
 ```bash
 docker build -t promptguard .
-docker run -p 8000:8000 promptguard
+docker run -p 7860:7860 promptguard
+```
+
+Open:
+
+```text
+http://localhost:7860
+http://localhost:7860/docs
+```
+
+### Docker Compose
+
+```bash
+docker compose up --build -d
+```
+
+Check it:
+
+```bash
+docker compose ps
+curl http://localhost:7860/health
+```
+
+Stop it:
+
+```bash
+docker compose down
 ```
 
 ### Render
