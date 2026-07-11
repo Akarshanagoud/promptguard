@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: promptguard
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
