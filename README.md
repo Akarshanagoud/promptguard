@@ -94,6 +94,8 @@ http://localhost:7860
 http://localhost:7860/docs
 ```
 
+The home page includes a small dashboard for scanning prompts and viewing recent audit events.
+
 ### Docker Compose
 
 ```bash
@@ -113,19 +115,13 @@ Stop it:
 docker compose down
 ```
 
-### Render
-
-1. Push this repository to GitHub.
-2. Create a new Render Web Service from the repository.
-3. Render will detect `render.yaml` and deploy the Docker service.
-4. Use `/health` as the health check path.
-
 ## Project Structure
 
 ```text
 app/
   main.py          FastAPI app and /scan endpoint
   models.py        Request and response schemas
+  audit.py         SQLite-backed audit logging
   scanner.py       Pattern and secret detection logic
   policy.py        Risk scoring and response decisions
 tests/
