@@ -1,0 +1,44 @@
+# Default PromptGuard policy.
+# Load with: PromptGuard.from_file("policies/default.yaml")
+name: default
+
+input:
+  detect_injection: true
+  detect_jailbreak: true
+  detect_secrets: true
+  detect_pii: true
+  # hash mode keeps values correlatable across a trace without exposing them
+  pii_mode: hash
+  pii_entities: [EMAIL, PHONE, SSN, CREDIT_CARD, IBAN, MRN, DATE_OF_BIRTH]
+  redact_secrets: true
+  max_chars: 32000
+  block_threshold: 0.75
+  flag_threshold: 0.4
+  block_on_severity: critical
+  allow_rules: []
+
+output:
+  redact_pii: true
+  pii_mode: label
+  redact_secrets: true
+  check_toxicity: true
+  toxicity_thresholds:
+    harassment: 0.5
+    hate: 0.4
+    violence: 0.5
+    self_harm: 0.4
+    sexual: 0.6
+    profanity: 0.8
+  check_schema: false
+  block_threshold: 0.75
+  flag_threshold: 0.4
+  block_on_severity: critical
+
+compliance:
+  frameworks: [owasp_llm, nist_ai_rmf, eu_ai_act]
+  audit_log_path: null
+  log_payloads: false
+  hash_salt: change-me-per-environment
+  retention_days: 90
+
+fail_open: false

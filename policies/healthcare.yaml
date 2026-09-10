@@ -1,0 +1,43 @@
+# Stricter preset for a clinical or otherwise regulated surface.
+# Every identifier in the HIPAA Safe Harbor list that PromptGuard can detect is
+# enabled, blocking is aggressive, and payload logging stays off.
+name: healthcare
+
+input:
+  detect_injection: true
+  detect_jailbreak: true
+  detect_secrets: true
+  detect_pii: true
+  pii_mode: hash
+  pii_entities: [EMAIL, PHONE, SSN, CREDIT_CARD, IBAN, MRN, DATE_OF_BIRTH, US_PASSPORT, NPI, IP_ADDRESS]
+  redact_secrets: true
+  max_chars: 16000
+  block_threshold: 0.5
+  flag_threshold: 0.25
+  block_on_severity: high
+
+output:
+  redact_pii: true
+  pii_mode: label
+  pii_entities: [EMAIL, PHONE, SSN, CREDIT_CARD, IBAN, MRN, DATE_OF_BIRTH, US_PASSPORT, NPI]
+  redact_secrets: true
+  check_toxicity: true
+  toxicity_thresholds:
+    harassment: 0.3
+    hate: 0.3
+    violence: 0.3
+    self_harm: 0.25
+    sexual: 0.4
+    profanity: 0.6
+  block_threshold: 0.5
+  flag_threshold: 0.25
+  block_on_severity: high
+
+compliance:
+  frameworks: [owasp_llm, nist_ai_rmf, eu_ai_act]
+  audit_log_path: ./audit/healthcare.jsonl
+  log_payloads: false
+  hash_salt: change-me-per-environment
+  retention_days: 2555   # 7 years
+
+fail_open: false

@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "promptguard"
+version = "0.1.0"
+description = "Input validation, output policy and compliance controls for LLM applications"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["llm", "security", "prompt-injection", "guardrails", "responsible-ai", "pii"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+]
+dependencies = []
+
+[project.optional-dependencies]
+yaml = ["PyYAML>=6.0"]
+server = ["fastapi>=0.110", "uvicorn[standard]>=0.27", "pydantic>=2.5"]
+schema = ["jsonschema>=4.21"]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=4.1",
+    "ruff>=0.4",
+    "PyYAML>=6.0",
+    "jsonschema>=4.21",
+    "fastapi>=0.110",
+    "httpx>=0.27",
+]
+all = ["PyYAML>=6.0", "fastapi>=0.110", "uvicorn[standard]>=0.27", "jsonschema>=4.21"]
+
+[project.scripts]
+promptguard = "promptguard.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/akarshanamachanpally/promptguard"
+Issues = "https://github.com/akarshanamachanpally/promptguard/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+ignore = ["E501"]
+
+[tool.coverage.run]
+source = ["promptguard"]
+branch = true
