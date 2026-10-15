@@ -40,8 +40,8 @@ all = ["PyYAML>=6.0", "fastapi>=0.110", "uvicorn[standard]>=0.27", "jsonschema>=
 promptguard = "promptguard.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/akarshanamachanpally/promptguard"
-Issues = "https://github.com/akarshanamachanpally/promptguard/issues"
+Homepage = "https://github.com/Akarshanagoud/promptguard"
+Issues = "https://github.com/Akarshanagoud/promptguard/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

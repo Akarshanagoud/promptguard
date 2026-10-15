@@ -2,10 +2,12 @@
 
 Input validation, output policy and compliance controls for LLM applications.
 
-[![CI](https://github.com/akarshanamachanpally/promptguard/actions/workflows/ci.yml/badge.svg)](https://github.com/akarshanamachanpally/promptguard/actions/workflows/ci.yml)
+[![CI](https://github.com/Akarshanagoud/promptguard/actions/workflows/ci.yml/badge.svg)](https://github.com/Akarshanagoud/promptguard/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Dependencies](https://img.shields.io/badge/core%20dependencies-none-brightgreen)
+
+**Docs:** [Architecture and use cases](docs/ARCHITECTURE.md) · [Verified results](docs/RESULTS.md)
 
 Most LLM security tooling stops at detection: it scans a prompt, writes a score
 to a dashboard, and forwards the request anyway. PromptGuard closes the gap
