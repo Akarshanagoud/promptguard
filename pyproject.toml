@@ -46,6 +46,9 @@ Issues = "https://github.com/Akarshanagoud/promptguard/issues"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+promptguard = ["web/*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]

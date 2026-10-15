@@ -5,6 +5,8 @@ Run with::
     pip install "promptguard[server]"
     uvicorn promptguard.server:app --reload
 
+or ``promptguard ui`` to open the web console served from the same app.
+
 Set ``PROMPTGUARD_CONFIG`` to a policy file path and ``PROMPTGUARD_AUDIT_LOG``
 to a JSONL path to persist decisions.
 
@@ -29,6 +31,7 @@ except ImportError as exc:  # pragma: no cover
 from . import __version__
 from .compliance import build_report
 from .config import GuardConfig
+from .console import mount_console
 from .guard import PromptGuard
 from .types import GuardResult
 
@@ -157,3 +160,7 @@ def batch_report(payloads: list[str]) -> dict[str, Any]:
     """Score a batch of payloads and return aggregate control coverage."""
     results = [guard.input.check(p) for p in payloads]
     return build_report(results, guard.config.compliance.frameworks).to_dict()
+
+
+# The web console (``/ui``) shares this guard, so its dashboard reads the same audit chain.
+console = mount_console(app, guard)

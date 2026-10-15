@@ -7,6 +7,7 @@
     promptguard report audit.jsonl       # control-coverage report
     promptguard verify audit.jsonl       # audit chain integrity
     promptguard rules                    # list every rule the guard can fire
+    promptguard ui                       # open the web console (server extra)
 
 Exit codes are CI-friendly: 0 clean, 1 findings present, 2 blocked, 3 usage.
 """
@@ -14,7 +15,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
+import threading
+import webbrowser
 from pathlib import Path
 
 from .audit import AuditLog
@@ -205,6 +209,25 @@ def cmd_rules(args: argparse.Namespace) -> int:
     return EXIT_CLEAN
 
 
+def cmd_ui(args: argparse.Namespace) -> int:
+    try:
+        import uvicorn
+    except ImportError:
+        print("the console needs the server extra: pip install 'promptguard[server]'", file=sys.stderr)
+        return EXIT_USAGE
+    # server.py builds its guard at import time from these variables.
+    if args.config:
+        os.environ["PROMPTGUARD_CONFIG"] = str(Path(args.config).resolve())
+    if args.audit_log:
+        os.environ["PROMPTGUARD_AUDIT_LOG"] = str(Path(args.audit_log).resolve())
+    url = f"http://{args.host}:{args.port}/ui/"
+    print(f"PromptGuard console: {url}  (Ctrl+C to stop)")
+    if not args.no_browser:
+        threading.Timer(1.2, webbrowser.open, args=(url,)).start()
+    uvicorn.run("promptguard.server:app", host=args.host, port=args.port, log_level="warning")
+    return EXIT_CLEAN
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="promptguard",
@@ -247,6 +270,14 @@ def build_parser() -> argparse.ArgumentParser:
     rules = sub.add_parser("rules", help="list every rule the guard can fire")
     rules.add_argument("--json", action="store_true")
     rules.set_defaults(func=cmd_rules)
+
+    ui = sub.add_parser("ui", help="open the web console (needs the server extra)")
+    ui.add_argument("--host", default="127.0.0.1")
+    ui.add_argument("--port", type=int, default=8765)
+    ui.add_argument("-c", "--config", help="path to a YAML/JSON policy file")
+    ui.add_argument("--audit-log", help="persist decisions to this JSONL audit log")
+    ui.add_argument("--no-browser", action="store_true", help="do not open a browser tab")
+    ui.set_defaults(func=cmd_ui)
 
     return parser
 

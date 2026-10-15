@@ -76,6 +76,30 @@ Run the full tour offline — nine worked examples, no keys required:
 python examples/quickstart.py
 ```
 
+### Web console
+
+```bash
+pip install "promptguard[server]"
+promptguard ui                 # opens http://127.0.0.1:8765/ui/
+```
+
+![PromptGuard console: decisions, findings and control evidence from simulated traffic](docs/images/console-overview.png)
+
+The console is served by the same app as the HTTP sidecar, so every number it shows
+comes from the guard's own audit records:
+
+- **Overview**: simulate realistic traffic and watch the decision mix, findings by
+  category, the busiest rules, and the compliance controls they provide evidence for.
+- **Playground**: send one request through the full turn (input guard, model, output
+  guard) under any preset, with each finding highlighted in the text.
+- **Audit trail**: browse and verify the hash chain, then export it as JSONL.
+- **Rules**: every detection rule, and how the three presets enforce them.
+
+![Playground: an instruction hidden in a retrieved document is blocked before the model is called](docs/images/console-playground.png)
+
+No model is attached. The decisions are real; the playground uses the reply you paste
+or a stand-in. Pass `--audit-log audit.jsonl` to keep decisions across restarts.
+
 ### Library
 
 ```python
@@ -249,9 +273,11 @@ src/promptguard/
   compliance.py       Control-framework mapping and reporting
   cli.py              scan / redact / report / verify / rules
   server.py           Optional FastAPI sidecar
+  console.py          Web console API (playground, dashboard, audit, rules)
+  web/                Console front end: static HTML, CSS and JS, no build step
   detectors/          injection, jailbreak, secrets
   policy/             pii, toxicity, schema, engine
-tests/                122 tests
+tests/                131 tests
 examples/             quickstart, benchmark, labelled corpora
 policies/             default.yaml, healthcare.yaml
 ```
