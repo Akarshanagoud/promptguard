@@ -41,4 +41,6 @@ jobs:
           python-version: "3.12"
       - run: pip install -e .
       - run: promptguard rules
-      - run: promptguard scan -f examples/benign_prompts.txt --lines
+      # Exit 1 = low-severity findings (e.g. the self-correction phrase, kept visible on
+      # purpose), exit 2 = blocked. Only a block on benign traffic should fail the build.
+      - run: promptguard scan -f examples/benign_prompts.txt --lines || [ $? -le 1 ]
