@@ -223,11 +223,13 @@ code, pre, .mono { font-family: var(--mono); font-size: 12.5px; }
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
   box-shadow: var(--shadow); min-width: 0;
 }
-.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 16px 18px 0; }
+.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px 12px; padding: 16px 18px 0; flex-wrap: wrap; }
+.card-head > div:first-child { min-width: 0; flex: 1 1 200px; }
 .card-head p { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
 .card-body { padding: 14px 18px 18px; }
 .card-body.flush { padding: 12px 0 0; }
-.card-actions { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+.card-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; max-width: 100%; }
+.seg { max-width: 100%; overflow-x: auto; }
 
 /* ---------- stat tile ---------- */
 .stat { padding: 14px 16px; }
